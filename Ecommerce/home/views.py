@@ -1,6 +1,14 @@
 from django.shortcuts import render
-from django.http import http
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
-def home(request):
-    return 
+from .models import Item, ItemOrder
+from .serializers import ItemSerializer
+
+
+class ItemView(APIView):
+    def get(self, request):
+        items = Item.objects.all()
+        serializer = ItemSerializer(items, many=True)
+        return Response(serializer.data)
